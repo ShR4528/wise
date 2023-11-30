@@ -1,9 +1,11 @@
 import Image from 'next/image';
+import Searchbar from './components/ Searchbar';
+import HeroCarousel from './components/HeroCarousel';
 
 const Home = () => {
   return (
     <>
-      <section className='px-6 border-2 md:px-20 py-20 border-red-500'>
+      <section className='px-6 border-2 md:px-20 py-24'>
         <div className='flex max-xl:flex-col gap-16'>
           <div className='flex flex-col justify-center'>
             <p className='small-text'>
@@ -23,9 +25,18 @@ const Home = () => {
               Powerful, self-serve product and growth analytics to help you
               convert, engage, and retain more
             </p>
-            Searchbar
+            <Searchbar />
           </div>
-          HeroCarousel
+          <HeroCarousel />
+        </div>
+      </section>
+      <section className='trending-section'>
+        <h2 className='section-text'>Trending</h2>
+
+        <div className='flex flex-wrap gap-x-8 gap-y-16'>
+          {['Apple Iphone', 'Book', 'Samsung'].map((product) => (
+            <div>{product}</div>
+          ))}
         </div>
       </section>
     </>
