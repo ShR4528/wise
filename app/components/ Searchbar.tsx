@@ -1,5 +1,6 @@
 'use client';
 
+import { scrapeAndStoreProduct } from '@/lib/actions';
 import { FormEvent, useState } from 'react';
 
 const isValidAmazanProdubctURL = (url: string) => {
@@ -9,7 +10,7 @@ const isValidAmazanProdubctURL = (url: string) => {
 
     if (
       hostname.includes('amazon.com') ||
-      hostname.includes('amazon') ||
+      hostname.includes('amazon.') ||
       hostname.endsWith('amazon')
     ) {
       return true;
@@ -20,18 +21,20 @@ const isValidAmazanProdubctURL = (url: string) => {
 };
 
 const Searchbar = () => {
-  const [searhPromt, setSearhPromt] = useState('');
+  const [searchPrompt, setSearchPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const isValidLink = isValidAmazanProdubctURL(searhPromt);
+    const isValidLink = isValidAmazanProdubctURL(searchPrompt);
     if (!isValidLink) {
       return alert('Please enter a valid link');
     }
     try {
       setIsLoading(true);
+
+      const product = await scrapeAndStoreProduct(searchPrompt);
     } catch (error) {
       console.log(error);
     } finally {
@@ -43,14 +46,14 @@ const Searchbar = () => {
     <form className='flex flex-wrap gap-4 mt-10' onSubmit={handleSubmit}>
       <input
         type='text'
-        onChange={(e) => setSearhPromt(e.target.value)}
+        onChange={(e) => setSearchPrompt(e.target.value)}
         placeholder='Enter'
         className='searchbar-input'
       />
       <button
         type='submit'
         className='searchbar-btn'
-        disabled={searhPromt === ''}>
+        disabled={searchPrompt === ''}>
         {isLoading ? 'Searchig...' : 'Search'}
       </button>
     </form>
