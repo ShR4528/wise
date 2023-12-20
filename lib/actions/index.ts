@@ -28,7 +28,8 @@ export async function scrapeAndStoreProduct(productUrl: string) {
       product = {
         ...scrapedProduct,
         priceHistory: updatedPriceHistory,
-        lowestPrice: getLowestPrice(updatedPriceHistory),
+        owersPrice: getLowestPrice(updatedPriceHistory),
+        // lowestPrice: getLowestPrice(updatedPriceHistory),
         highestPrice: getHighestPrice(updatedPriceHistory),
         averagePrice: getAveragePrice(updatedPriceHistory),
       };
@@ -48,4 +49,10 @@ export async function scrapeAndStoreProduct(productUrl: string) {
   } catch (error: any) {
     throw new Error(`Failed to create product: ${error.message}`);
   }
+}
+
+export async function getProductById(productId: string) {
+  try {
+    connectToDB();
+  } catch (error) {}
 }
