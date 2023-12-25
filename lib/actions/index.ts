@@ -28,8 +28,8 @@ export async function scrapeAndStoreProduct(productUrl: string) {
       product = {
         ...scrapedProduct,
         priceHistory: updatedPriceHistory,
-        owersPrice: getLowestPrice(updatedPriceHistory),
-        // lowestPrice: getLowestPrice(updatedPriceHistory),
+        //owersPrice: getLowestPrice(updatedPriceHistory),
+        lowersPrice: getLowestPrice(updatedPriceHistory),
         highestPrice: getHighestPrice(updatedPriceHistory),
         averagePrice: getAveragePrice(updatedPriceHistory),
       };
@@ -54,5 +54,12 @@ export async function scrapeAndStoreProduct(productUrl: string) {
 export async function getProductById(productId: string) {
   try {
     connectToDB();
-  } catch (error) {}
+
+    const product = await Product.findById({ productId });
+    if (!product) return;
+
+    return product;
+  } catch (error) {
+    console.log(error);
+  }
 }
