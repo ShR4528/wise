@@ -30,7 +30,7 @@ export async function scrapeAndStoreProduct(productUrl: string) {
       product = {
         ...scrapedProduct,
         priceHistory: updatedPriceHistory,
-        //owersPrice: getLowestPrice(updatedPriceHistory),
+
         lowersPrice: getLowestPrice(updatedPriceHistory),
         highestPrice: getHighestPrice(updatedPriceHistory),
         averagePrice: getAveragePrice(updatedPriceHistory),
@@ -111,7 +111,7 @@ export async function addUserEmailToProduct(
 
       await product.save();
 
-      const emailContent = generateEmailBody(product, 'WELCOME');
+      const emailContent = await generateEmailBody(product, 'WELCOME');
 
       await sendEmail(emailContent, [userEmail]);
     }

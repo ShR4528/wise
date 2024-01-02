@@ -1,17 +1,17 @@
 import { EmailContent, EmailProductInfo, NotificationType } from '@/types';
 import nodemailer from 'nodemailer';
 
-export const Notification = {
+const Notification = {
   WELCOME: 'WELCOME',
   CHANGE_OF_STOCK: 'CHANGE_OF_STOCK',
   LOWEST_PRICE: 'LOWEST_PRICE',
   THRESHOLD_MET: 'THRESHOLD_MET',
 };
 
-export const generateEmailBody = (
+export async function generateEmailBody(
   product: EmailProductInfo,
   type: NotificationType
-) => {
+) {
   const THRESHOLD_PERCENTAGE = 40;
   const shortenedTitle =
     product.title.length > 20
@@ -73,7 +73,7 @@ export const generateEmailBody = (
       throw new Error('Invalid notification type.');
   }
   return { subject, body };
-};
+}
 
 const transporter = nodemailer.createTransport({
   pool: true,
